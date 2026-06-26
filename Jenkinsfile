@@ -3,13 +3,20 @@ pipeline {
 
     stages {
 
-        stage('Build Docker Image') {
+        stage('Checkout') {
             steps {
-                sh 'docker compose down || true'
-                sh 'docker compose up -d --build'
+                checkout scm
             }
         }
 
+        stage('Build & Deploy') {
+            steps {
+                sh '''
+                docker-compose down || true
+                docker-compose up -d --build
+                '''
+            }
+        }
     }
 
     post {
