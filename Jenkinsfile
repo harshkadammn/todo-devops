@@ -1,31 +1,14 @@
-pipeline {
-    agent any
-
-    stages {
-
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Build & Deploy') {
-            steps {
-                sh '''
-                docker-compose down || true
-                docker-compose up -d --build
-                '''
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'Deployment Successful!'
-        }
-
-        failure {
-            echo 'Deployment Failed!'
-        }
+stage('Debug Docker') {
+    steps {
+        sh '''
+        whoami
+        id
+        pwd
+        ls -l /var/run/docker.sock
+        docker version
+        docker ps
+        docker-compose version
+        docker-compose ps
+        '''
     }
 }
